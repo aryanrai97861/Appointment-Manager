@@ -25,7 +25,7 @@ export const connectDB = async (): Promise<typeof mongoose> => {
     const conn = await mongoose.connect(mongoUri, {
       serverSelectionTimeoutMS: 8000,
       connectTimeoutMS: 10000
-    });
+    } as mongoose.ConnectOptions);
 
     isConnected = true;
     console.log(`[DB] MongoDB Atlas Connected: ${conn.connection.host}`);
@@ -44,6 +44,7 @@ export const connectDB = async (): Promise<typeof mongoose> => {
     console.log('[DB FALLBACK] Initializing MongoMemoryServer as fallback database...');
 
     try {
+      // @ts-ignore
       const { MongoMemoryServer } = await import('mongodb-memory-server');
       const memoryServer = await MongoMemoryServer.create();
       const fallbackUri = memoryServer.getUri();
