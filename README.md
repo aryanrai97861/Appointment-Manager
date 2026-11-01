@@ -11,7 +11,6 @@
 | **Frontend Application** | Vercel | **[https://frontend-five-lake-29.vercel.app/](https://frontend-five-lake-29.vercel.app/)** |
 | **Backend Health Check** | Render | **[https://appointment-manager-wbul.onrender.com/api/health](https://appointment-manager-wbul.onrender.com/api/health)** |
 | **Backend API Base** | Render | **[https://appointment-manager-wbul.onrender.com/api/appointments](https://appointment-manager-wbul.onrender.com/api/appointments)** |
-| **Source Code Repository** | GitHub | **[https://github.com/aryanrai97861/Appointment-Manager](https://github.com/aryanrai97861/Appointment-Manager)** |
 
 ---
 
