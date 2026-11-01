@@ -1,0 +1,16 @@
+{
+  "name": "appointment-manager-monorepo",
+  "version": "1.0.0",
+  "description": "Full-stack MERN Appointment Management Application with TypeScript and MongoDB Atlas",
+  "scripts": {
+    "install:all": "npm install --prefix backend && npm install --prefix frontend",
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "test": "npm run test --prefix backend",
+    "seed": "npm run seed --prefix backend",
+    "build": "npm run build --prefix backend && npm run build --prefix frontend"
+  },
+  "keywords": ["mern", "appointment-manager", "typescript", "mongodb-atlas", "react", "express"],
+  "author": "Aryan Rai",
+  "license": "ISC"
+}
