@@ -1,23 +1,53 @@
 import request from 'supertest';
 import mongoose from 'mongoose';
-import { MongoMemoryServer } from 'mongodb-memory-server';
+import dotenv from 'dotenv';
+import path from 'path';
+
+// Load environment variables for test execution
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
+
 import app from '../src/app';
 import Appointment from '../src/models/Appointment';
 import { startingAppointments } from '../src/data/seedData';
 
-let mongoServer: MongoMemoryServer;
+let mongoServer: any = null;
 
 beforeAll(async () => {
   process.env.NODE_ENV = 'test';
+
+  // 1. Fast path: Connect to MongoDB Atlas test database if URI is available (< 2s)
+  const baseUri = process.env.TEST_MONGO_URI || process.env.MONGO_URI;
+  if (baseUri) {
+    try {
+      const testUri = baseUri.includes('?')
+        ? baseUri.replace(/\/[^/?]+\?/, '/appointment_manager_test?')
+        : baseUri.replace(/\/$/, '') + '/appointment_manager_test';
+
+      await mongoose.connect(testUri, { serverSelectionTimeoutMS: 6000 });
+      return;
+    } catch (err: any) {
+      console.warn('[TEST DB] Atlas connection skipped, falling back to MongoMemoryServer:', err.message);
+    }
+  }
+
+  // 2. Fallback: In-memory MongoDB server with extended timeout for binary download
+  const { MongoMemoryServer } = await import('mongodb-memory-server');
   mongoServer = await MongoMemoryServer.create();
   const uri = mongoServer.getUri();
   await mongoose.connect(uri);
-});
+}, 180000);
 
 afterAll(async () => {
-  await mongoose.disconnect();
-  await mongoServer.stop();
-});
+  try {
+    await Appointment.deleteMany({});
+    await mongoose.disconnect();
+    if (mongoServer) {
+      await mongoServer.stop();
+    }
+  } catch (err: any) {
+    console.warn('[TEST CLEANUP WARNING]', err.message);
+  }
+}, 60000);
 
 beforeEach(async () => {
   await Appointment.deleteMany({});
