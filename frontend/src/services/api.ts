@@ -1,6 +1,8 @@
 import { Appointment, CreateAppointmentInput, ApiResponse, StatusFilter, AppointmentStatus } from '../types/appointment';
 
-const API_BASE = '/api/appointments';
+// Support production backend domain via VITE_API_URL environment variable, falling back to relative path for local proxy
+const BASE_URL = import.meta.env.VITE_API_URL ? (import.meta.env.VITE_API_URL as string).replace(/\/+$/, '') : '';
+const API_BASE = `${BASE_URL}/api/appointments`;
 
 export class ApiError extends Error {
   errors: string[];
@@ -90,7 +92,7 @@ export const api = {
   // Check backend server health
   async checkHealth(): Promise<boolean> {
     try {
-      const res = await fetch('/api/health');
+      const res = await fetch(`${BASE_URL}/api/health`);
       const data = await res.json();
       return data.status === 'healthy';
     } catch {

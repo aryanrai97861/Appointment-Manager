@@ -5,8 +5,9 @@ import appointmentRoutes from './routes/appointmentRoutes';
 const app: Application = express();
 
 // Middlewares
+const allowedOrigin = process.env.CLIENT_URL || '*';
 app.use(cors({
-  origin: '*', // Allow frontend development server
+  origin: allowedOrigin,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
