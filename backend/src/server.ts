@@ -15,11 +15,11 @@ const startServer = async () => {
 
     const server = app.listen(PORT, () => {
       console.log(`===============================================`);
-      console.log(`🚀 Appointment Manager Backend Server Running`);
-      console.log(`📍 Port: ${PORT}`);
-      console.log(`🌍 Mode: ${process.env.NODE_ENV || 'development'}`);
-      console.log(`🔗 Health Check: http://localhost:${PORT}/api/health`);
-      console.log(`📅 API Endpoint: http://localhost:${PORT}/api/appointments`);
+      console.log(`Appointment Manager Backend Server Running`);
+      console.log(`Port: ${PORT}`);
+      console.log(`Mode: ${process.env.NODE_ENV || 'development'}`);
+      console.log(`Health Check: http://localhost:${PORT}/api/health`);
+      console.log(`API Endpoint: http://localhost:${PORT}/api/appointments`);
       console.log(`===============================================`);
     });
 
